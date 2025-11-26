@@ -1,26 +1,29 @@
 import React from "react";
-import './scss/app.scss'
-import Header from "./components/Header.jsx";
-import Categories from "./components/Categories.jsx";
-import Sort from "./components/Sort.jsx";
-import PizzaBlock from "./components/PizzaBlock.jsx";
+import './scss/app.scss';
+
+import Header from "./components/Header";
+import Categories from "./components/Categories";
+import Sort from "./components/Sort";
+import PizzaBlock from "./components/PizzaBlock";
 
 function App() {
   return (
-    <div className="wrapper">
+    <div class="wrapper">
       <Header />
-      <div className="content">
-        <div className="container">
-          <div className="content__top">
+
+      <div class="content">
+        <div class="container">
+          <div class="content__top">
             <Categories />
-            <Sort />
+
+          <Sort/>
           </div>
-          <h2 className="content__title">Все пиццы</h2>
-          <div className="content__items">
-            <PizzaBlock title="Мексиканская" price="500" />
-            <PizzaBlock title="Cмешная" price="420" />
-            <PizzaBlock title="Сырная" price="440" />
-            <PizzaBlock title="Пепкиронки" price="330" />
+          <h2 class="content__title">Все пиццы</h2>
+          <div class="content__items">
+            <PizzaBlock title = 'Смешная' price = "450"/>
+            <PizzaBlock title = 'Сырная' price = "1000"/>
+            <PizzaBlock title = 'МексиканГёрл' price = "250"/>
+            <PizzaBlock title = 'Ауешная' price = "20"/>
           </div>
         </div>
       </div>

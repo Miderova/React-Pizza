@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import axios from "axios";
 import qs from "qs";
 import { useNavigate } from "react-router-dom";
@@ -34,11 +34,8 @@ export const Home = () => {
     dispatch(setCategoryId(id));
   };
 
-  // const onChangePage = (page) => {
-  //   dispatch(setCurrentPage(page));
-  // };
 
-  const fetchPizzas = () => {
+  const fetchPizzas = useCallback(() => {
     setIsLoading(true);
 
     const sortBy = sort.sortProperty.replace("-", "");
@@ -54,14 +51,7 @@ export const Home = () => {
         setItems(res.data);
         setIsLoading(false);
       })
-
-      // это строчка от гпт
-      .catch((error) => {
-        setItems([]); // можно показать пустой список вместо ошибки
-        setIsLoading(false);
-      });
-    // это строчка от гпт
-  };
+  }, [categoryId, currentPage, searchValue, sort.sortProperty])
 
   React.useEffect(() => {
     if (isMounted.current) {
@@ -79,13 +69,15 @@ export const Home = () => {
   React.useEffect(() => {
     const params = qs.parse(window.location.search.substring(1));
 
-    const sort = sortList.find(
+    //
+const sort = sortList.find(
       (obj) => obj.sortProperty === params.sortProperty
-    );
+    ) || sortList[0];
+    //
     dispatch(
       setFilters({
         ...params,
-        sort,
+        sort: sort || sortList[0],
       })
     );
     isSearch.current = true;
@@ -93,11 +85,8 @@ export const Home = () => {
 
   React.useEffect(() => {
     window.scrollTo(0, 0);
-    if (!isSearch.current) {
       fetchPizzas();
-    }
-    isSearch.current = false;
-  }, [categoryId, sort, searchValue, currentPage]);
+  }, [categoryId, sort, searchValue, currentPage, fetchPizzas]);
 
   const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
   const skeletons = [...new Array(6)].map((_, index) => (
